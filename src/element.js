@@ -47,6 +47,9 @@ Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
      o }
     \*/
     elproto.getBBox = function (isWithoutTransform) {
+        if (this.type == "tspan") {
+            return Snap._.box(this.node.getClientRects().item(0));
+        }
         if (!Snap.Matrix || !Snap.path) {
             return this.node.getBBox();
         }
@@ -830,10 +833,12 @@ Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
         anim._callback = callback;
         eve("snap.animcreated." + el.id, anim);
         eve.once("mina.finish." + anim.id, function () {
+            eve.off("mina.*." + anim.id);
             delete el.anims[anim.id];
             callback && callback.call(el);
         });
         eve.once("mina.stop." + anim.id, function () {
+            eve.off("mina.*." + anim.id);
             delete el.anims[anim.id];
         });
         return el;
