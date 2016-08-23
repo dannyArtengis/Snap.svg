@@ -132,7 +132,7 @@ Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
          - x (number) horizontal offset distance
          - y (number) vertical offset distance
         \*/
-        matrixproto.translate = function (x, y) {
+        matrixproto.translate = function (tx, ty) {
             this.e += tx * this.a + ty * this.c;
             this.f += tx * this.b + ty * this.d;
             return this;
@@ -148,7 +148,7 @@ Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
          - cy (number) #optional vertical origin point from which to scale
          * Default cx, cy is the middle point of the element.
         \*/
-        matrixproto.scale = function (x, y, cx, cy) {
+        matrixproto.scale = function (sx, sy, tx, ty) {
             sy == null && (sy = sx);
             (tx || ty) && this.translate(tx, ty);
             this.a *= sx;
